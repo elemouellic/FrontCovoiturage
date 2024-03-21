@@ -3,16 +3,19 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Service to authenticate users
 class AuthenticationService {
   final String baseUrl =
       "http://127.0.0.1:8000/api"; // Replace with your Symfony API URL
 
+  /// Login the user
   Future<bool> login(String username, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
       body: {'username': username, 'password': password},
     );
 
+    // If the server returns a 200 OK response, then the login was successful
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       final token = jsonResponse['token'];
@@ -26,6 +29,7 @@ class AuthenticationService {
     }
   }
 
+  /// Register a new user
   Future<String?> register(String login, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/register'),
@@ -35,6 +39,7 @@ class AuthenticationService {
       body: jsonEncode({'login': login, 'password': password}),
     );
 
+    // If the server returns a 201 Created response, then the registration was successful
     if (response.statusCode == 201) {
       final jsonResponse = jsonDecode(response.body);
       final token = jsonResponse['token'];
@@ -53,15 +58,16 @@ class AuthenticationService {
     }
   }
 
+  /// Insert a new person
   Future<http.Response> insertPersonne(String firstname, String name,
       String phone, String email, int cityId) async {
     String? token = await getToken();
 
     if (token == null) {
-      print('Token is null');
       return http.Response('Unauthorized', 401);
     }
 
+    // Insert the person
     final response = await http.post(
       Uri.parse('$baseUrl/insertpersonne'),
       headers: <String, String>{
@@ -80,16 +86,17 @@ class AuthenticationService {
     return response;
   }
 
+  /// Get the list of cities
   Future<List<Map<String, dynamic>>> getCities() async {
-    // Récupérer le token
+    // Get the token
     String? token = await getToken();
 
-    // Vérifier si le token est null
+    // Check if the token is null
     if (token == null) {
-      print('Token is null');
       return [];
     }
 
+    // Get the list of cities
     final response = await http.get(
       Uri.parse('$baseUrl/listeville'), // Utiliser votre route existante
       headers: <String, String>{
@@ -98,6 +105,7 @@ class AuthenticationService {
       },
     );
 
+    // If the server returns a 200 OK response, then the request was successful
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       final cities = jsonResponse
@@ -106,13 +114,14 @@ class AuthenticationService {
                 'name': city['name'],
                 'zipcode': city['zipcode']
               })
-          .toList(); // Extraire les id, noms et codes postaux des villes
+          .toList(); // Extract the list of cities
       return cities;
     } else {
       return [];
     }
   }
 
+  /// Get the token from the SharedPreferences
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
