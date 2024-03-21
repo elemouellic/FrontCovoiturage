@@ -53,15 +53,13 @@ class AuthenticationService {
     }
   }
 
-  Future<bool> insertPersonne(String firstname, String name, String phone,
-      String email, int cityId) async {
-    // Récupérer le token
+  Future<http.Response> insertPersonne(String firstname, String name,
+      String phone, String email, int cityId) async {
     String? token = await getToken();
 
-    // Vérifier si le token est null
     if (token == null) {
       print('Token is null');
-      return false;
+      return http.Response('Unauthorized', 401);
     }
 
     final response = await http.post(
@@ -69,7 +67,6 @@ class AuthenticationService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
-        // Ajouter le token à l'en-tête de la requête
       },
       body: jsonEncode(<String, dynamic>{
         'firstname': firstname,
@@ -80,39 +77,43 @@ class AuthenticationService {
       }),
     );
 
-    if (response.statusCode == 201) {
-      return true;
+    return response;
+  }
+
+  Future<List<Map<String, dynamic>>> getCities() async {
+    // Récupérer le token
+    String? token = await getToken();
+
+    // Vérifier si le token est null
+    if (token == null) {
+      print('Token is null');
+      return [];
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/listeville'), // Utiliser votre route existante
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final cities = jsonResponse
+          .map<Map<String, dynamic>>((city) => {
+                'id': city['id'],
+                'name': city['name'],
+                'zipcode': city['zipcode']
+              })
+          .toList(); // Extraire les id, noms et codes postaux des villes
+      return cities;
     } else {
-      return false;
+      return [];
     }
   }
 
-Future<List<Map<String, dynamic>>> getCities() async {
-  // Récupérer le token
-  String? token = await getToken();
-
-  // Vérifier si le token est null
-  if (token == null) {
-    print('Token is null');
-    return [];
-  }
-
-  final response = await http.get(
-    Uri.parse('$baseUrl/listeville'), // Utiliser votre route existante
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer $token',
-    },
-  );
-
-  if (response.statusCode == 200) {
-    final jsonResponse = jsonDecode(response.body);
-    final cities = jsonResponse.map<Map<String, dynamic>>((city) => {'id': city['id'], 'name': city['name'], 'zipcode': city['zipcode']}).toList(); // Extraire les id, noms et codes postaux des villes
-    return cities;
-  } else {
-    return [];
-  }
-}  Future<String?> getToken() async {
+  Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
