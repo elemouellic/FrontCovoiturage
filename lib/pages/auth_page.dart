@@ -22,7 +22,7 @@ class AuthPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             LoginPage(),
             RegisterPage(), // Assurez-vous d'avoir une page d'inscription

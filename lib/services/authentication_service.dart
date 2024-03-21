@@ -9,26 +9,28 @@ class AuthenticationService {
       "http://127.0.0.1:8000/api"; // Replace with your Symfony API URL
 
   /// Login the user
-  Future<bool> login(String username, String password) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/login'),
-      body: {'username': username, 'password': password},
-    );
+Future<bool> login(String username, String password) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/login'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode({'login': username, 'password': password}),
+  );
 
-    // If the server returns a 200 OK response, then the login was successful
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      final token = jsonResponse['token'];
+  // If the server returns a 200 OK response, then the login was successful
+  if (response.statusCode == 200) {
+    final jsonResponse = jsonDecode(response.body);
+    final token = jsonResponse['token'];
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', token);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
 
-      return true;
-    } else {
-      return false;
-    }
+    return true;
+  } else {
+    return false;
   }
-
+}
   /// Register a new user
   Future<String?> register(String login, String password) async {
     final response = await http.post(
