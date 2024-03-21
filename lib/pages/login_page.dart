@@ -1,0 +1,59 @@
+// lib/pages/login_page.dart
+import 'package:flutter/material.dart';
+import 'package:frontcovoiturage/services/authentication_service.dart';
+
+/// Page to login
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  /// Create the state of the widget
+  @override
+  LoginPageState createState() => LoginPageState();
+}
+
+/// State of the LoginPage
+class LoginPageState extends State<LoginPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _authService = AuthenticationService();
+
+  void _login() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    final success = await _authService.login(username, password);
+
+    if (success) {
+      // Navigate to the next page
+    } else {
+      // Show an error message
+    }
+  }
+
+  /// Build the widget
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Username'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            ElevatedButton(
+              onPressed: _login,
+              child: const Text('Login'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
