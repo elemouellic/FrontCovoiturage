@@ -1,7 +1,8 @@
 // lib/pages/profile_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
-
+import 'package:frontcovoiturage/extensions/string_extension.dart';
 import 'home_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -84,18 +85,18 @@ class ProfilePageState extends State<ProfilePage> {
             ),
             Autocomplete<Map<String, dynamic>>(
               optionsBuilder: (TextEditingValue textEditingValue) {
-                if (textEditingValue.text.length < 3) {
+                if (textEditingValue.text.isEmpty) {
                   return const Iterable<Map<String, dynamic>>.empty();
                 }
+
                 return _cities.where((Map<String, dynamic> city) {
-                  return city['name']
+                  return city['zipcode']
                       .toString()
-                      .toLowerCase()
-                      .startsWith(textEditingValue.text.toLowerCase());
+                      .startsWith(textEditingValue.text);
                 });
               },
               displayStringForOption: (Map<String, dynamic> option) =>
-                  '${option['name']} (${option['zipcode']})',
+                  '${option['name'].toString().capitalizeEachWord()} (${option['zipcode']})',
               onSelected: (Map<String, dynamic> selection) {
                 _selectedCity = selection;
               },
@@ -106,8 +107,12 @@ class ProfilePageState extends State<ProfilePage> {
                 return TextField(
                   controller: fieldTextEditingController,
                   focusNode: fieldFocusNode,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                   decoration: const InputDecoration(
-                    hintText: 'Nom de la ville',
+                    hintText: 'Code postal',
                   ),
                   onSubmitted: (String value) {
                     onFieldSubmitted();
