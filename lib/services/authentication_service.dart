@@ -79,7 +79,6 @@ class AuthenticationService {
 //  | |  |  __/ |  \__ \ (_) | | | | | | \ \ (_) | |_| | ||  __/
 //  |_|   \___|_|  |___/\___/|_| |_| |_|  \_\___/ \__,_|\__\___|
 
-
   /// Insert a new person
   Future<http.Response> insertPersonne(String firstname, String name,
       String phone, String email, int cityId) async {
@@ -141,6 +140,53 @@ class AuthenticationService {
 //
 //
 
+  /// Insert a car
+  Future<http.Response> insertCar(
+      String model, String matriculation, int places, String brand, int studentId) async {
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Insert the car
+    final response = await http.post(
+      Uri.parse('$baseUrl/insertvoiture'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'model': model,
+        'matriculation': matriculation,
+        'places': places,
+        'brand': brand,
+        'student': studentId,
+      }),
+    );
+
+    return response;
+  }
+
+  /// Delete a car
+  Future<http.Response> deleteCar(int carId) async {
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Delete the car
+    final response = await http.delete(
+      Uri.parse('$baseUrl/deletevoiture/$carId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    return response;
+  }
 
 //    _____ _ _           _____             _
 //   / ____(_) |         |  __ \           | |
@@ -150,8 +196,6 @@ class AuthenticationService {
 //   \_____|_|\__|\__, | |_|  \_\___/ \__,_|\__\___|
 //                 __/ |
 //                |___/
-
-
 
   /// Get the list of cities
   Future<List<Map<String, dynamic>>> getCities() async {
@@ -188,17 +232,43 @@ class AuthenticationService {
     }
   }
 
+//   ____                      _ _____             _
+//  |  _ \                    | |  __ \           | |
+//  | |_) |_ __ __ _ _ __   __| | |__) |___  _   _| |_ ___
+//  |  _ <| '__/ _` | '_ \ / _` |  _  // _ \| | | | __/ _ \
+//  | |_) | | | (_| | | | | (_| | | \ \ (_) | |_| | ||  __/
+//  |____/|_|  \__,_|_| |_|\__,_|_|  \_\___/ \__,_|\__\___|
+//
+//
 
+  /// Get the list of brands
+Future<http.Response> getBrands() async {
+  // Get the token
+  String? token = await getToken();
 
+  // Check if the token is null
+  if (token == null) {
+    return http.Response('Unauthorized', 401);
+  }
+
+  // Get the list of brands
+  final response = await http.get(
+    Uri.parse('$baseUrl/listemarque'), // Utiliser votre route existante
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  // Return the response directly
+  return response;
+}
 //   _    _ _   _ _
 //  | |  | | | (_) |
 //  | |  | | |_ _| |___
 //  | |  | | __| | / __|
 //  | |__| | |_| | \__ \
 //   \____/ \__|_|_|___/
-
-
-
 
   /// Get the token from the SharedPreferences
   Future<String?> getToken() async {
