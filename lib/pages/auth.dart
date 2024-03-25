@@ -1,7 +1,7 @@
-// lib/pages/auth_page.dart
+// lib/pages/auth.dart
 import 'package:flutter/material.dart';
-import 'package:frontcovoiturage/pages/login_page.dart';
-import 'package:frontcovoiturage/pages/register_page.dart'; // Assurez-vous d'avoir une page d'inscription
+import 'package:frontcovoiturage/pages/auth__login.dart';
+import 'package:frontcovoiturage/pages/auth__register.dart';
 
 /// Page to authenticate
 class AuthPage extends StatelessWidget {
@@ -25,7 +25,7 @@ class AuthPage extends StatelessWidget {
         body: const TabBarView(
           children: [
             LoginPage(),
-            RegisterPage(), // Assurez-vous d'avoir une page d'inscription
+            RegisterPage(),
           ],
         ),
       ),

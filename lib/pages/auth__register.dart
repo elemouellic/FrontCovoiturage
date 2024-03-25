@@ -1,6 +1,6 @@
-// lib/pages/register_page.dart
+// lib/pages/auth__register.dart
 import 'package:flutter/material.dart';
-import 'package:frontcovoiturage/pages/profile_page.dart';
+import 'package:frontcovoiturage/pages/auth__register__profile.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 
 

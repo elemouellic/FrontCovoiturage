@@ -1,7 +1,7 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:frontcovoiturage/pages/auth_page.dart';
-import 'package:frontcovoiturage/pages/home_page.dart';
+import 'package:frontcovoiturage/pages/auth.dart';
+import 'package:frontcovoiturage/pages/home.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 
 void main() {

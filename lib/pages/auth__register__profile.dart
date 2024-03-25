@@ -1,11 +1,11 @@
-// lib/pages/profile_page.dart
+// lib/pages/auth__register__profile.dart
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 import 'package:frontcovoiturage/extensions/string_extension.dart';
-import 'home_page.dart';
+import 'home.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

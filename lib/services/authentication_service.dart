@@ -5,9 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Service to authenticate users
 class AuthenticationService {
-  final String baseUrl =
-      "http://127.0.0.1:8000/api"; // Replace with your Symfony API URL
+  final String baseUrl = "http://127.0.0.1:8000/api";
 
+//   _    _                 _____             _
+//  | |  | |               |  __ \           | |
+//  | |  | |___  ___ _ __  | |__) |___  _   _| |_ ___
+//  | |  | / __|/ _ \ '__| |  _  // _ \| | | | __/ _ \
+//  | |__| \__ \  __/ |    | | \ \ (_) | |_| | ||  __/
+//   \____/|___/\___|_|    |_|  \_\___/ \__,_|\__\___|
+
+  // todo : changer le retour de la fonction login pour qu'elle retourne une http.Response
   /// Login the user
   Future<bool> login(String username, String password) async {
     final response = await http.post(
@@ -65,6 +72,14 @@ class AuthenticationService {
     }
   }
 
+//  _____                            _____             _
+//  |  __ \                          |  __ \           | |
+//  | |__) |__ _ __ ___  ___  _ __   | |__) |___  _   _| |_ ___
+//  |  ___/ _ \ '__/ __|/ _ \| '_ \  |  _  // _ \| | | | __/ _ \
+//  | |  |  __/ |  \__ \ (_) | | | | | | \ \ (_) | |_| | ||  __/
+//  |_|   \___|_|  |___/\___/|_| |_| |_|  \_\___/ \__,_|\__\___|
+
+
   /// Insert a new person
   Future<http.Response> insertPersonne(String firstname, String name,
       String phone, String email, int cityId) async {
@@ -102,7 +117,7 @@ class AuthenticationService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/selectpersonne/user/$id'),
+      Uri.parse('$baseUrl/selectpersonne/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
@@ -116,6 +131,27 @@ class AuthenticationService {
       return null;
     }
   }
+
+//    _____             _____             _
+//   / ____|           |  __ \           | |
+//  | |     __ _ _ __  | |__) |___  _   _| |_ ___
+//  | |    / _` | '__| |  _  // _ \| | | | __/ _ \
+//  | |___| (_| | |    | | \ \ (_) | |_| | ||  __/
+//   \_____\__,_|_|    |_|  \_\___/ \__,_|\__\___|
+//
+//
+
+
+//    _____ _ _           _____             _
+//   / ____(_) |         |  __ \           | |
+//  | |     _| |_ _   _  | |__) |___  _   _| |_ ___
+//  | |    | | __| | | | |  _  // _ \| | | | __/ _ \
+//  | |____| | |_| |_| | | | \ \ (_) | |_| | ||  __/
+//   \_____|_|\__|\__, | |_|  \_\___/ \__,_|\__\___|
+//                 __/ |
+//                |___/
+
+
 
   /// Get the list of cities
   Future<List<Map<String, dynamic>>> getCities() async {
@@ -151,6 +187,18 @@ class AuthenticationService {
       return [];
     }
   }
+
+
+
+//   _    _ _   _ _
+//  | |  | | | (_) |
+//  | |  | | |_ _| |___
+//  | |  | | __| | / __|
+//  | |__| | |_| | \__ \
+//   \____/ \__|_|_|___/
+
+
+
 
   /// Get the token from the SharedPreferences
   Future<String?> getToken() async {

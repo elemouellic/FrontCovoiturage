@@ -1,7 +1,8 @@
-// lib/pages/home_page.dart
+// lib/pages/home.dart
 import 'package:flutter/material.dart';
+import 'package:frontcovoiturage/pages/home__account.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
-import 'package:frontcovoiturage/pages/auth_page.dart';
+import 'package:frontcovoiturage/pages/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Importez vos widgets ici
@@ -39,6 +40,8 @@ Widget currentWidget = const Center(
   final authService = AuthenticationService();
   // Attribute to store the username
   String ?username = "...";
+
+
 
   @override
   void initState() {
@@ -142,7 +145,7 @@ Widget currentWidget = const Center(
               title: const Text('Mon compte'),
               onTap: () {
                 setState(() {
-                  currentWidget = const Center(child: Text('Mon compte'));
+                  currentWidget = HomeAccount();
                 });
                 Navigator.pop(context);
               },

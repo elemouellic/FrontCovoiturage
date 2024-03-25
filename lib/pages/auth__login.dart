@@ -1,8 +1,8 @@
-// lib/pages/login_page.dart
+// lib/pages/auth__login.dart
 import 'package:flutter/material.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 
-import 'home_page.dart';
+import 'home.dart';
 
 /// Page to login
 class LoginPage extends StatefulWidget {
