@@ -44,7 +44,7 @@ class ProfilePageState extends State<ProfilePage> {
     final email = _emailController.text;
     final cityId = _selectedCity?['id'];
 
-    if(firstname.isEmpty){
+    if (firstname.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Veuillez saisir un prénom.'),
@@ -54,7 +54,7 @@ class ProfilePageState extends State<ProfilePage> {
       return;
     }
 
-    if(name.isEmpty){
+    if (name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Veuillez saisir un nom.'),
@@ -64,7 +64,7 @@ class ProfilePageState extends State<ProfilePage> {
       return;
     }
 
-    if(phone.isEmpty || phone.length < 10 || phone.length >12){
+    if (phone.isEmpty || phone.length < 10 || phone.length > 12) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Veuillez saisir un numéro de téléphone valide.'),
@@ -74,7 +74,7 @@ class ProfilePageState extends State<ProfilePage> {
       return;
     }
 
-    if(email.isEmpty || !email.contains('@') || !email.contains('.')){
+    if (email.isEmpty || !email.contains('@') || !email.contains('.')) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Veuillez saisir un email valide.'),
@@ -122,7 +122,6 @@ class ProfilePageState extends State<ProfilePage> {
           MaterialPageRoute(builder: (context) => const ProfilePage()),
         );
       }
-
     }
   }
 
@@ -153,7 +152,6 @@ class ProfilePageState extends State<ProfilePage> {
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
               keyboardType: TextInputType.emailAddress,
-
             ),
             Autocomplete<Map<String, dynamic>>(
               optionsBuilder: (TextEditingValue textEditingValue) {

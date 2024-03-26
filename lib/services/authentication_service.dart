@@ -107,6 +107,33 @@ class AuthenticationService {
     return response;
   }
 
+  Future<http.Response> updatePersonne(int id, String firstname, String name,
+      String phone, String email, int cityId) async {
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Insert the person
+    final response = await http.put(
+      Uri.parse('$baseUrl/updatepersonne/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'firstname': firstname,
+        'name': name,
+        'phone': phone,
+        'email': email,
+        'cityId': cityId,
+      }),
+    );
+
+    return response;
+  }
+
   /// Get the person by the user ID
   Future<Map<String, dynamic>?> getPersonne(int id) async {
     String? token = await getToken();

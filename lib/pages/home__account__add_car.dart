@@ -43,6 +43,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
             controllers.forEach((controller) => controller.clear());
             selectedCarBrands = null;
           });
+          Navigator.of(context).pop(); // Close the dialog
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content:
@@ -105,7 +106,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
           },
         ),
         ElevatedButton(
-          onPressed: addCar,
+          onPressed: () => addCar(),
           child: const Text('Ajouter voiture'),
         ),
       ],

@@ -135,14 +135,24 @@ class _HomeAccountState extends State<HomeAccount> {
                   ],
                 )
               else
-                AddCarWidget(
-                  authService: authService,
-                  onCarAdded: () {
-                    // Handle car added
-                    // For example, you can reload the user data
-                    loadUser();
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: AddCarWidget(
+                            authService: authService,
+                            onCarAdded: () {
+                              loadUser();
+                            },
+                            studentId: user!['id'],
+                          ),
+                        );
+                      },
+                    );
                   },
-                  studentId: user!['id'],
+                  child: const Text('Ajouter voiture'),
                 ),
             ],
           ),
