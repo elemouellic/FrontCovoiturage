@@ -20,33 +20,38 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-Widget currentWidget = const Center(
-  child: SizedBox(
-    width: 250.0,
-    height: 100.0,
-    child: Center(
-      child: Text(
-        'Bienvenue sur l\'application de covoiturage du Greta de Vannes',
-        softWrap: true,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20.0,
-        )
+
+  bool isDriver = false;
+
+  Widget currentWidget = const Center(
+    child: SizedBox(
+      width: 250.0,
+      height: 100.0,
+      child: Center(
+        child: Text(
+            'Bienvenue sur l\'application de covoiturage du Greta de Vannes',
+            softWrap: true,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+            )
+        ),
       ),
     ),
-  ),
-);
+  );
+
   // Create an instance of the AuthenticationService
   final authService = AuthenticationService();
+
   // Attribute to store the username
   String ?username = "...";
-
 
 
   @override
   void initState() {
     super.initState();
-   loadUser();
+    loadUser();
+
   }
 
 
@@ -58,6 +63,7 @@ Widget currentWidget = const Center(
       if (user != null) {
         setState(() {
           username = user['firstname'];
+          isDriver = user!['car'] != null;
         });
       }
     }
@@ -105,7 +111,8 @@ Widget currentWidget = const Center(
               title: const Text('Liste des trajets'),
               onTap: () {
                 setState(() {
-                  currentWidget = const Center(child: Text('Liste des trajets'));
+                  currentWidget =
+                  const Center(child: Text('Liste des trajets'));
                 });
                 Navigator.pop(context);
               },
@@ -115,7 +122,8 @@ Widget currentWidget = const Center(
               title: const Text('Rechercher un trajet'),
               onTap: () {
                 setState(() {
-                  currentWidget = const Center(child: Text('Rechercher un trajet'));
+                  currentWidget =
+                  const Center(child: Text('Rechercher un trajet'));
                 });
                 Navigator.pop(context);
               },
@@ -130,16 +138,18 @@ Widget currentWidget = const Center(
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.list_alt_sharp),
-              title: const Text('Publier un trajet'),
-              onTap: () {
-                setState(() {
-                  currentWidget = const Center(child: Text('Publier un trajet'));
-                });
-                Navigator.pop(context);
-              },
-            ),
+            if (isDriver) ...[
+              ListTile(
+                leading: const Icon(Icons.list_alt_sharp),
+                title: const Text('Publier un trajet'),
+                onTap: () {
+                  setState(() {
+                    currentWidget = const Center(child: Text('Publier un trajet'));
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
             ListTile(
               leading: const Icon(Icons.person),
               title: const Text('Mon compte'),
