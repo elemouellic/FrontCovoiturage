@@ -9,12 +9,14 @@ class UpdateProfileWidget extends StatefulWidget {
   final AuthenticationService authService;
   final Function onProfileUpdated;
   final int userId;
+  final int ?carId;
 
   const UpdateProfileWidget({
     Key? key,
     required this.authService,
     required this.onProfileUpdated,
     required this.userId,
+    this.carId,
   }) : super(key: key);
 
   @override
@@ -92,15 +94,15 @@ class _UpdateProfileWidgetState extends State<UpdateProfileWidget> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  controller: _phoneController,
+                  decoration: const InputDecoration(labelText: 'Téléphone'),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  controller: _phoneController,
-                  decoration: const InputDecoration(labelText: 'Téléphone'),
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: 'Email'),
                 ),
               ),
               Padding(

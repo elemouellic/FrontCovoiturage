@@ -107,8 +107,8 @@ class AuthenticationService {
     return response;
   }
 
-  Future<http.Response> updatePersonne(int id, String firstname, String name,
-      String phone, String email, int cityId) async {
+  Future<http.Response> updatePersonne(int id, String firstname, String name, String email,
+      String phone, int cityId) async {
     String? token = await getToken();
 
     if (token == null) {
@@ -126,8 +126,8 @@ class AuthenticationService {
         'id': id,
         'firstname': firstname,
         'name': name,
-        'phone': phone,
         'email': email,
+        'phone': phone,
         'cityId': cityId,
       }),
     );
