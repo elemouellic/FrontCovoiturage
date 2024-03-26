@@ -117,12 +117,13 @@ class AuthenticationService {
 
     // Insert the person
     final response = await http.put(
-      Uri.parse('$baseUrl/updatepersonne/$id'),
+      Uri.parse('$baseUrl/updatepersonne'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode(<String, dynamic>{
+        'id': id,
         'firstname': firstname,
         'name': name,
         'phone': phone,
