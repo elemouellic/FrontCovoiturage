@@ -49,47 +49,65 @@ class _HomeAccountState extends State<HomeAccount> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextField(
-                controller: TextEditingController(text: user!['firstname']),
-                decoration: const InputDecoration(labelText: 'Prénom'),
-                enabled: true,
+              Icon(
+                Icons.account_circle,
+                size: 100,
               ),
-              TextField(
-                controller: TextEditingController(text: user!['name']),
-                decoration: const InputDecoration(labelText: 'Nom'),
-                enabled: true,
+              Text(
+                'Prénom: ${user!['firstname']}',
+                style: TextStyle(fontSize: 16),
               ),
-              TextField(
-                controller: TextEditingController(text: user!['phone']),
-                decoration: const InputDecoration(labelText: 'Téléphone'),
-                enabled: true,
+              Text(
+                'Nom: ${user!['name']}',
+                style: TextStyle(fontSize: 16),
               ),
-              TextField(
-                controller: TextEditingController(text: user!['email']),
-                decoration: const InputDecoration(labelText: 'Email'),
-                enabled: true,
+              Text(
+                'Téléphone: ${user!['phone']}',
+                style: TextStyle(fontSize: 16),
               ),
-              TextField(
-                controller: TextEditingController(
-                    text: user!['city'].toString().capitalizeEachWord()),
-                decoration: const InputDecoration(labelText: 'Ville'),
-                enabled: true,
+              Text(
+                'Email: ${user!['email']}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Ville: ${user!['city'].toString().capitalizeEachWord()}',
+                style: TextStyle(fontSize: 16),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/car'); // todo update student
                 },
-                child: const Text('Mettre à jour'),
+                child: const Text('Mettre à jour profil'),
               ),
               if (user!['car'] != null &&
                   user!['brand'] != null &&
                   user!['matriculation'] != null)
                 Column(
                   children: [
+                    Icon(
+                      Icons.directions_car,
+                      size: 100,
+                    ),
+                    Text(
+                      'Voiture: ${user!['car']}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      'Marque: ${user!['brand']}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      'Immatriculation: ${user!['matriculation']}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      'Nombre de places: ${user!['places'].toString()}',
+                      style: TextStyle(fontSize: 16),
+                    ),
                     ElevatedButton(
                       onPressed: () async {
                         final response =
-                            await authService.deleteCar(user!['carId']);
+                        await authService.deleteCar(user!['carId']);
                         if (response.statusCode == 200) {
                           // Handle successful deletion
                           // For example, you can remove the car fields from the UI
@@ -107,30 +125,6 @@ class _HomeAccountState extends State<HomeAccount> {
                         }
                       },
                       child: const Text('Supprimer voiture'),
-                    ),
-                    TextField(
-                      controller: TextEditingController(text: user!['car']),
-                      decoration: const InputDecoration(labelText: 'Voiture'),
-                      enabled: false,
-                    ),
-                    TextField(
-                      controller: TextEditingController(text: user!['brand']),
-                      decoration: const InputDecoration(labelText: 'Marque'),
-                      enabled: false,
-                    ),
-                    TextField(
-                      controller:
-                          TextEditingController(text: user!['matriculation']),
-                      decoration:
-                          const InputDecoration(labelText: 'Immatriculation'),
-                      enabled: false,
-                    ),
-                    TextField(
-                      controller: TextEditingController(
-                          text: user!['places'].toString()),
-                      decoration:
-                          const InputDecoration(labelText: 'Nombre de places'),
-                      enabled: false,
                     ),
                   ],
                 )

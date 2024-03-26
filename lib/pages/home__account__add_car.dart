@@ -106,7 +106,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
           },
         ),
         ElevatedButton(
-          onPressed: () => addCar(),
+          onPressed: addCar,
           child: const Text('Ajouter voiture'),
         ),
       ],
