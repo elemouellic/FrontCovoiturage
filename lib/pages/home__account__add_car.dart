@@ -7,7 +7,7 @@ import '../services/authentication_service.dart';
 class AddCarWidget extends StatefulWidget {
   final AuthenticationService authService;
   final Function onCarAdded;
-  final int studentId; // Add the student ID as a parameter
+  final int studentId;
 
   const AddCarWidget(
       {Key? key,
@@ -73,43 +73,66 @@ class _AddCarWidgetState extends State<AddCarWidget> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
+@override
+Widget build(BuildContext context) {
+  return ConstrainedBox(
+    constraints: const BoxConstraints(maxWidth: 350, maxHeight: 400),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Add this
       children: [
-        TextField(
-          controller: controllers[0],
-          decoration: const InputDecoration(labelText: 'Modèle'),
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: controllers[0],
+                decoration: const InputDecoration(labelText: 'Modèle'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: controllers[1],
+                decoration: const InputDecoration(labelText: 'Immatriculation'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: controllers[2],
+                decoration: const InputDecoration(labelText: 'Nombre de places'),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DropdownButtonFormField<String>(
+                value: selectedCarBrands,
+                decoration: const InputDecoration(labelText: 'Marque'),
+                items: carBrands.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCarBrands = newValue;
+                  });
+                },
+              ),
+            ),
+          ],
         ),
-        TextField(
-          controller: controllers[1],
-          decoration: const InputDecoration(labelText: 'Immatriculation'),
-        ),
-        TextField(
-          controller: controllers[2],
-          decoration: const InputDecoration(labelText: 'Nombre de places'),
-          keyboardType: TextInputType.number,
-        ),
-        DropdownButtonFormField<String>(
-          value: selectedCarBrands,
-          decoration: const InputDecoration(labelText: 'Marque'),
-          items: carBrands.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (String? newValue) {
-            setState(() {
-              selectedCarBrands = newValue;
-            });
-          },
-        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
         ElevatedButton(
           onPressed: addCar,
           child: const Text('Ajouter voiture'),
         ),
+      ),
       ],
-    );
-  }
-}
+    ),
+  );
+}}

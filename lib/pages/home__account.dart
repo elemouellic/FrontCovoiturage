@@ -49,82 +49,121 @@ class _HomeAccountState extends State<HomeAccount> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(
-                Icons.account_circle,
-                size: 100,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.account_circle,
+                  size: 100,
+                ),
               ),
-              Text(
-                'Prénom: ${user!['firstname']}',
-                style: TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Prénom: ${user!['firstname']}',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-              Text(
-                'Nom: ${user!['name']}',
-                style: TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Nom: ${user!['name']}',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-              Text(
-                'Téléphone: ${user!['phone']}',
-                style: TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Téléphone: ${user!['phone']}',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-              Text(
-                'Email: ${user!['email']}',
-                style: TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Email: ${user!['email']}',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-              Text(
-                'Ville: ${user!['city'].toString().capitalizeEachWord()}',
-                style: TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Ville: ${user!['city'].toString().capitalizeEachWord()}',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/car'); // todo update student
-                },
-                child: const Text('Mettre à jour profil'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/car'); // todo update student
+                  },
+                  child: const Text('Mettre à jour profil'),
+                ),
               ),
               if (user!['car'] != null &&
                   user!['brand'] != null &&
                   user!['matriculation'] != null)
                 Column(
                   children: [
-                    Icon(
-                      Icons.directions_car,
-                      size: 100,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.directions_car,
+                        size: 100,
+                      ),
                     ),
-                    Text(
-                      'Voiture: ${user!['car']}',
-                      style: TextStyle(fontSize: 16),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Voiture: ${user!['car']}',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
-                    Text(
-                      'Marque: ${user!['brand']}',
-                      style: TextStyle(fontSize: 16),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Marque: ${user!['brand']}',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
-                    Text(
-                      'Immatriculation: ${user!['matriculation']}',
-                      style: TextStyle(fontSize: 16),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Immatriculation: ${user!['matriculation']}',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
-                    Text(
-                      'Nombre de places: ${user!['places'].toString()}',
-                      style: TextStyle(fontSize: 16),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Nombre de places: ${user!['places'].toString()}',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        final response =
-                        await authService.deleteCar(user!['carId']);
-                        if (response.statusCode == 200) {
-                          // Handle successful deletion
-                          // For example, you can remove the car fields from the UI
-                          setState(() {
-                            user!.remove('car');
-                            user!.remove('brand');
-                            user!.remove('matriculation');
-                            user!.remove('carId');
-                          });
-                        } else {
-                          // Handle error
-                          SnackBar(
-                              content: Text(
-                                  'Error while deleting the car: ${response.body}'));
-                        }
-                      },
-                      child: const Text('Supprimer voiture'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final response =
+                              await authService.deleteCar(user!['carId']);
+                          if (response.statusCode == 200) {
+                            // Handle successful deletion
+                            // For example, you can remove the car fields from the UI
+                            setState(() {
+                              user!.remove('car');
+                              user!.remove('brand');
+                              user!.remove('matriculation');
+                              user!.remove('carId');
+                            });
+                          } else {
+                            // Handle error
+                            SnackBar(
+                                content: Text(
+                                    'Error while deleting the car: ${response.body}'));
+                          }
+                        },
+                        child: const Text('Supprimer voiture'),
+                      ),
                     ),
                   ],
                 )
