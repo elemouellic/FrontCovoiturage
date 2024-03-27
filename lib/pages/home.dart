@@ -1,9 +1,11 @@
 // lib/pages/home.dart
 import 'package:flutter/material.dart';
 import 'package:frontcovoiturage/pages/home__account.dart';
+import 'package:frontcovoiturage/pages/home__trip.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 import 'package:frontcovoiturage/pages/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 // Importez vos widgets ici
 // import 'package:frontcovoiturage/pages/trajets_page.dart';
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> {
       if (user != null) {
         setState(() {
           username = user['firstname'];
-          isDriver = user!['car'] != null;
+          isDriver = user['car'] != null;
         });
       }
     }
@@ -144,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Publier un trajet'),
                 onTap: () {
                   setState(() {
-                    currentWidget = const Center(child: Text('Publier un trajet'));
+                    currentWidget = const HomeTrip();
                   });
                   Navigator.pop(context);
                 },

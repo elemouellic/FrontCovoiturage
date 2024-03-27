@@ -107,8 +107,8 @@ class AuthenticationService {
     return response;
   }
 
-  Future<http.Response> updatePersonne(int id, String firstname, String name, String email,
-      String phone, int cityId) async {
+  Future<http.Response> updatePersonne(int id, String firstname, String name,
+      String email, String phone, int cityId) async {
     String? token = await getToken();
 
     if (token == null) {
@@ -159,6 +159,44 @@ class AuthenticationService {
     }
   }
 
+  //   _______   _         _____             _
+  //  |__   __| (_)       |  __ \           | |
+  //     | |_ __ _ _ __   | |__) |___  _   _| |_ ___
+  //     | | '__| | '_ \  |  _  // _ \| | | | __/ _ \
+  //     | | |  | | |_) | | | \ \ (_) | |_| | ||  __/
+  //     |_|_|  |_| .__/  |_|  \_\___/ \__,_|\__\___|
+  //              | |
+  //              |_|
+
+  /// Insert a carpooling trip
+  Future<http.Response> insertTrip(int driverId, int startCityId, int endCityId,
+      double kmDistance, DateTime travelDate, int placesOffered) async {
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Insert the trip
+    final response = await http.post(
+      Uri.parse('$baseUrl/inserttrajet'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'drive_id': driverId,
+        'start_id': startCityId,
+        'arrive_id': endCityId,
+        'kmdistance': kmDistance,
+        'traveldate': travelDate.toIso8601String(),
+        'placesoffered': placesOffered,
+      }),
+    );
+
+    return response;
+  }
+
 //    _____             _____             _
 //   / ____|           |  __ \           | |
 //  | |     __ _ _ __  | |__) |___  _   _| |_ ___
@@ -169,8 +207,8 @@ class AuthenticationService {
 //
 
   /// Insert a car
-  Future<http.Response> insertCar(
-      String model, String matriculation, int places, String brand, int studentId) async {
+  Future<http.Response> insertCar(String model, String matriculation,
+      int places, String brand, int studentId) async {
     String? token = await getToken();
 
     if (token == null) {
@@ -270,27 +308,28 @@ class AuthenticationService {
 //
 
   /// Get the list of brands
-Future<http.Response> getBrands() async {
-  // Get the token
-  String? token = await getToken();
+  Future<http.Response> getBrands() async {
+    // Get the token
+    String? token = await getToken();
 
-  // Check if the token is null
-  if (token == null) {
-    return http.Response('Unauthorized', 401);
+    // Check if the token is null
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Get the list of brands
+    final response = await http.get(
+      Uri.parse('$baseUrl/listemarque'), // Utiliser votre route existante
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    // Return the response directly
+    return response;
   }
 
-  // Get the list of brands
-  final response = await http.get(
-    Uri.parse('$baseUrl/listemarque'), // Utiliser votre route existante
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer $token',
-    },
-  );
-
-  // Return the response directly
-  return response;
-}
 //   _    _ _   _ _
 //  | |  | | | (_) |
 //  | |  | | |_ _| |___
