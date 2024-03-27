@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontcovoiturage/extensions/string_extension.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -23,24 +24,24 @@ class _UserTripsPageState extends State<UserTripsPage> {
     loadUser();
   }
 
-Future<void> loadUser() async {
-  final prefs = await SharedPreferences.getInstance();
-  final userId = prefs.getInt('userId');
-  if (userId != null) {
-    final fetchedUser = await authService.getPersonne(userId);
-    if (fetchedUser != null) {
-      if (mounted) {
-        setState(() {
-          user = fetchedUser;
-        });
-        // Get the student's ID from the fetched user
-        final studentId = fetchedUser['id'];
-        // Fetch the student's trips
-        tripsFuture = authService.getStudentOnTrips(studentId);
+  Future<void> loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId');
+    if (userId != null) {
+      final fetchedUser = await authService.getPersonne(userId);
+      if (fetchedUser != null) {
+        if (mounted) {
+          setState(() {
+            user = fetchedUser;
+          });
+          // Get the student's ID from the fetched user
+          final studentId = fetchedUser['id'];
+          // Fetch the student's trips
+          tripsFuture = authService.getStudentOnTrips(studentId);
+        }
       }
     }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +66,31 @@ Future<void> loadUser() async {
               itemCount: trips.length,
               itemBuilder: (context, index) {
                 final trip = trips[index];
-                return ListTile(
-                  title: Text('Trajet ${trip['id']}'),
-                  // Ajoutez d'autres informations sur le trajet ici
+                return Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Liste des trajets comme passager',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.drive_eta_rounded),
+                          title: Row(
+                            children: [
+                              Text('${trip['city_start']}'.toString().capitalizeEachWord()),
+                              const Icon(Icons.arrow_forward),
+                              Text('${trip['city_arrive']}'.toString().capitalizeEachWord()),
+                            ],
+                          ),
+                          subtitle: Text('${trip['traveldate']} \nConducteur :  ${trip['name']}'),
+                          trailing: Text('${trip['kmdistance']} kms'),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             );
