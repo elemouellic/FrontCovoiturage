@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+title (Rechercher un trajet)
+
+left to right direction
+
+:Passager: as Passager
+:Conducteur: as Conducteur
+:System: as System
+
+rectangle "Covoiturage" {
+
+    Passager --> (Sélectionner la ville de départ)
+    Passager --> (Sélectionner la ville d'arrivée)
+    Passager --> (Sélectionner la date du voyage)
+    Passager --> (Rechercher un trajet)
+
+    Conducteur --> (Proposer un trajet)
+
+    System --> (Afficher les détails du trajet)
+    System --> (Charger les villes)
+    System --> (Charger les trajets disponibles)
+
+    (Rechercher un trajet) ..> (Afficher les détails du trajet) : <<includes>>
+    (Sélectionner la ville de départ) ..> (Charger les villes) : <<includes>>
+    (Sélectionner la ville d'arrivée) ..> (Charger les villes) : <<includes>>
+
+}
+
+@enduml

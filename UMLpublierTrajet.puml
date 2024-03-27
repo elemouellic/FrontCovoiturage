@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+title (Publier un trajet)
+
+left to right direction
+
+:Conducteur: as Conducteur
+:System: as System
+
+rectangle "Covoiturage" {
+    Conducteur --> (Saisir la ville de départ)
+    Conducteur --> (Saisir la ville d'arrivée)
+    Conducteur --> (Saisir la distance en kms)
+    Conducteur --> (Saisir l'heure et la date du trajet)
+    Conducteur --> (Saisir le nombre de places offertes)
+    Conducteur --> (Publier un trajet)
+    Conducteur --> (Valider le trajet)
+
+    System --> (Vérifier la possession de voiture)
+    System --> (Enregistrer le trajet)
+    System --> (Charger les villes)
+
+    (Publier un trajet) ..> (Posséder une voiture) : <<includes>>
+    (Saisir la ville de départ) ..> (Charger les villes) : <<includes>>
+    (Saisir la ville d'arrivée) ..> (Charger les villes) : <<includes>>
+    (Valider le trajet) ..> (Enregistrer le trajet) : <<includes>>
+
+}
+
+@enduml
