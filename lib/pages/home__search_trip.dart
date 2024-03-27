@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/extensions/string_extension.dart';
-import 'package:frontcovoiturage/pages/home__search_trip__trip_detail.dart';
+import 'package:frontcovoiturage/pages/home___trip_detail.dart';
 
 class HomeSearch extends StatefulWidget {
   const HomeSearch({Key? key}) : super(key: key);
