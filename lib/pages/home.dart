@@ -8,6 +8,7 @@ import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/pages/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'auth__register__profile.dart';
 import 'home__list_trips.dart';
 
 class HomePage extends StatefulWidget {
@@ -48,12 +49,20 @@ class _HomePageState extends State<HomePage> {
     loadUser();
   }
 
-  Future<void> loadUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getInt('userId');
-    if (userId != null) {
-      final user = await authService.getPersonne(userId);
-      if (user != null) {
+Future<void> loadUser() async {
+  final prefs = await SharedPreferences.getInstance();
+  final userId = prefs.getInt('userId');
+  if (userId != null) {
+    final user = await authService.getPersonne(userId);
+    if (user == null) {
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfilePage()),
+        );
+      }
+    } else {
+      if (mounted) {
         setState(() {
           username = user['firstname'];
           isDriver = user['car'] != null;
@@ -61,8 +70,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
-
-  @override
+}  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
