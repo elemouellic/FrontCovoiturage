@@ -62,40 +62,52 @@ class _UserTripsPageState extends State<UserTripsPage> {
             } else if (data is List) {
               trips = data;
             }
-            return ListView.builder(
-              itemCount: trips.length,
-              itemBuilder: (context, index) {
-                final trip = trips[index];
-                return Center(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Liste des trajets comme passager',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.drive_eta_rounded),
-                          title: Row(
-                            children: [
-                              Text('${trip['city_start']}'.toString().capitalizeEachWord()),
-                              const Icon(Icons.arrow_forward),
-                              Text('${trip['city_arrive']}'.toString().capitalizeEachWord()),
-                            ],
-                          ),
-                          subtitle: Text('${trip['traveldate']} \nConducteur :  ${trip['name']}'),
-                          trailing: Text('${trip['kmdistance']} kms'),
-                        ),
-                      ],
+            return Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Liste des trajets comme passager',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                );
-              },
+                    if (trips.isEmpty)
+                      const Text(
+                          'Rien à voir ici pour le moment. Veuillez réessayer plus tard ou contactez le support si le problème persiste'),
+                    if (trips.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: trips.length,
+                          itemBuilder: (context, index) {
+                            final trip = trips[index];
+                            return ListTile(
+                              leading: const Icon(Icons.drive_eta_rounded),
+                              title: Row(
+                                children: [
+                                  Text('${trip['city_start']}'
+                                      .toString()
+                                      .capitalizeEachWord()),
+                                  const Icon(Icons.arrow_forward),
+                                  Text('${trip['city_arrive']}'
+                                      .toString()
+                                      .capitalizeEachWord()),
+                                ],
+                              ),
+                              subtitle: Text(
+                                  '${trip['traveldate']} \nConducteur :  ${trip['name']}'),
+                              trailing: Text('${trip['kmdistance']} kms'),
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             );
           } else {
-            return const Text('Une erreur est survenue');
+            return const Text(
+                'Rien à voir ici pour le moment. Veuillez réessayer plus tard ou contactez le support si le problème persiste');
           }
         } else {
           return const CircularProgressIndicator();
