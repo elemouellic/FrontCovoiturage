@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import '../services/authentication_service.dart';
+import '../services/api_service.dart';
 
 class AddCarWidget extends StatefulWidget {
   final AuthenticationService authService;

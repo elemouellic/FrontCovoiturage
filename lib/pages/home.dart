@@ -1,12 +1,12 @@
 // lib/pages/home.dart
 import 'package:flutter/material.dart';
+import 'package:frontcovoiturage/pages/home__search_trip.dart';
 import 'package:frontcovoiturage/pages/home__account.dart';
 import 'package:frontcovoiturage/pages/home__publish_trip.dart';
 import 'package:frontcovoiturage/pages/home__your_trips.dart';
-import 'package:frontcovoiturage/services/authentication_service.dart';
+import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/pages/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 // Importez vos widgets ici
 // import 'package:frontcovoiturage/pages/trajets_page.dart';
@@ -23,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   bool isDriver = false;
 
   Widget currentWidget = const Center(
@@ -37,8 +36,7 @@ class _HomePageState extends State<HomePage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20.0,
-            )
-        ),
+            )),
       ),
     ),
   );
@@ -47,16 +45,13 @@ class _HomePageState extends State<HomePage> {
   final authService = AuthenticationService();
 
   // Attribute to store the username
-  String ?username = "...";
-
+  String? username = "...";
 
   @override
   void initState() {
     super.initState();
     loadUser();
-
   }
-
 
   Future<void> loadUser() async {
     final prefs = await SharedPreferences.getInstance();
@@ -71,7 +66,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +109,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 setState(() {
                   currentWidget =
-                  const Center(child: Text('Liste des trajets'));
+                      const Center(child: Text('Liste des trajets'));
                 });
                 Navigator.pop(context);
               },
@@ -125,8 +119,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Rechercher un trajet'),
               onTap: () {
                 setState(() {
-                  currentWidget =
-                  const Center(child: Text('Rechercher un trajet'));
+                  currentWidget = HomeSearch();
                 });
                 Navigator.pop(context);
               },

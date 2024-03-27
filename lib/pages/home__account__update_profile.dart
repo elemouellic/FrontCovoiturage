@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:frontcovoiturage/services/authentication_service.dart';
+import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/extensions/string_extension.dart';
 
 class UpdateProfileWidget extends StatefulWidget {

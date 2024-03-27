@@ -1,7 +1,7 @@
 // lib/pages/auth__register.dart
 import 'package:flutter/material.dart';
 import 'package:frontcovoiturage/pages/auth__register__profile.dart';
-import 'package:frontcovoiturage/services/authentication_service.dart';
+import 'package:frontcovoiturage/services/api_service.dart';
 
 
 /// Page to register a new user

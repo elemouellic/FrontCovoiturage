@@ -1,0 +1,93 @@
+@startuml
+
+class AuthenticationService {
+  -baseUrl: String
+  +login(String, String): Future<bool>
+  +register(String, String): Future<String?>
+  +insertPersonne(String, String, String, String, int): Future<http.Response>
+  +updatePersonne(int, String, String, String, String, int): Future<http.Response>
+  +getPersonne(int): Future<Map<String, dynamic>?>
+  +insertTrip(int, int, int, double, DateTime, int): Future<http.Response>
+  +getTrips(): Future<http.Response>
+  +getDriverOnTrip(int): Future<http.Response>
+  +getStudentOnTrips(int): Future<http.Response>
+  +insertCar(String, String, int, String, int): Future<http.Response>
+  +deleteCar(int): Future<http.Response>
+  +getCities(): Future<List<Map<String, dynamic>>>
+  +getBrands(): Future<http.Response>
+  +getToken(): Future<String?>
+  +logout(): Future<void>
+}
+
+class HomePage {
+  -currentWidget: Widget
+  -authService: AuthenticationService
+  -username: String?
+  +build(BuildContext): Widget
+}
+
+class LoginPage {
+  -_usernameController: TextEditingController
+  -_passwordController: TextEditingController
+  -_authService: AuthenticationService
+  +build(BuildContext): Widget
+}
+
+class ProfilePage {
+  -_firstnameController: TextEditingController
+  -_nameController: TextEditingController
+  -_phoneController: TextEditingController
+  -_emailController: TextEditingController
+  -_authService: AuthenticationService
+  -_cities: List<Map<String, dynamic>>
+  -_selectedCity: Map<String, dynamic>?
+  +build(BuildContext): Widget
+}
+
+class UserTripsPage {
+  -user: Map<String, dynamic>?
+  -studentId: int?
+  -authService: AuthenticationService
+  -tripsFuture: Future<http.Response>?
+  +build(BuildContext): Widget
+}
+
+class AddCarWidget {
+  -controllers: List<TextEditingController>
+  -selectedCarBrands: String?
+  -carBrands: List<String>
+  +build(BuildContext): Widget
+}
+
+class UpdateProfileWidget {
+  -_firstNameController: TextEditingController
+  -_lastNameController: TextEditingController
+  -_emailController: TextEditingController
+  -_phoneController: TextEditingController
+  -_cityIdController: TextEditingController
+  -_cities: List<Map<String, dynamic>>
+  -_selectedCity: Map<String, dynamic>?
+  +build(BuildContext): Widget
+}
+
+class HomeTrip {
+  -_formKey: GlobalKey<FormState>
+  -_authService: AuthenticationService
+  -_cities: List<Map<String, dynamic>>
+  -_selectedStartCity: Map<String, dynamic>?
+  -_selectedEndCity: Map<String, dynamic>?
+  -_kmDistance: double?
+  -_travelDate: DateTime
+  -_placesOffered: int?
+  +build(BuildContext): Widget
+}
+
+AuthenticationService "1" -- "0..*" HomePage : uses >
+AuthenticationService "1" -- "0..*" LoginPage : uses >
+AuthenticationService "1" -- "0..*" ProfilePage : uses >
+AuthenticationService "1" -- "0..*" UserTripsPage : uses >
+AuthenticationService "1" -- "0..*" AddCarWidget : uses >
+AuthenticationService "1" -- "0..*" UpdateProfileWidget : uses >
+AuthenticationService "1" -- "0..*" HomeTrip : uses >
+
+@enduml

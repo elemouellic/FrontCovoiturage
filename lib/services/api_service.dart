@@ -1,7 +1,8 @@
-// lib/services/authentication_service.dart
+// lib/services/api_service.dart
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 /// Service to authenticate users
 class AuthenticationService {
@@ -197,31 +198,31 @@ class AuthenticationService {
     return response;
   }
 
-//   /// Get all the trips
-// Future<http.Response> getTrips(int userId) async {
-//   String? token = await getToken();
-//
-//   if (token == null) {
-//     return http.Response('Unauthorized', 401);
-//   }
-//
-//   // Get the list of trips
-//   final response = await http.get(
-//     Uri.parse('$baseUrl/listetrajet'),
-//     headers: <String, String>{
-//       'Content-Type': 'application/json; charset=UTF-8',
-//       'Authorization': 'Bearer $token',
-//     },
-//   );
-//
-//   if (response.statusCode == 200) {
-//     final jsonResponse = jsonDecode(response.body);
-//     final trips = jsonResponse.where((trip) => trip['driveId'] == userId).toList();
-//     return http.Response(jsonEncode(trips), 200);
-//   } else {
-//     return response;
-//   }
-// }
+  /// Get all the trips
+  Future<http.Response> getTrips() async {
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Get the list of trips
+    final response = await http.get(
+      Uri.parse('$baseUrl/listetrajet'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      return http.Response(jsonEncode(jsonResponse), 200);
+    } else {
+      return response;
+    }
+  }
+
   /// Get driver of a trip
   Future<http.Response> getDriverOnTrip(int tripId) async {
     String? token = await getToken();
@@ -243,7 +244,7 @@ class AuthenticationService {
   }
 
   /// Get the list of trips for a student
-  Future<http.Response> getStudentOnTrips(int studentId) async{
+  Future<http.Response> getStudentOnTrips(int studentId) async {
     String? token = await getToken();
 
     if (token == null) {
@@ -260,9 +261,32 @@ class AuthenticationService {
     );
 
     return response;
-
   }
 
+  /// Get the trips with givens start city, end city and date
+
+  Future<http.Response> searchTrip(int startCityId, int endCityId,
+      DateTime travelDate) async {
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Format the DateTime to a date string
+    String dateString = DateFormat('yyyy-MM-dd').format(travelDate);
+
+    // Get the list of trips
+    final response = await http.get(
+      Uri.parse('$baseUrl/recherchetrajet/$startCityId/$endCityId/$dateString'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    return response;
+  }
 
 //    _____             _____             _
 //   / ____|           |  __ \           | |
@@ -353,11 +377,12 @@ class AuthenticationService {
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       final cities = jsonResponse
-          .map<Map<String, dynamic>>((city) => {
-                'id': city['id'],
-                'name': city['name'],
-                'zipcode': city['zipcode']
-              })
+          .map<Map<String, dynamic>>((city) =>
+      {
+        'id': city['id'],
+        'name': city['name'],
+        'zipcode': city['zipcode']
+      })
           .toList(); // Extract the list of cities
       return cities;
     } else {

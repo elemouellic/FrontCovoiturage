@@ -1,0 +1,12 @@
+@startuml
+left to right direction
+actor Student
+actor Driver
+
+rectangle "Carpooling System" {
+  Student -- (View Trips)
+  Student -- (Book a Trip)
+  Driver -- (Offer a Trip)
+  Driver -- (View Bookings)
+}
+@enduml
