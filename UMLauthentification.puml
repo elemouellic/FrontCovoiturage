@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+title (Authentification)
+
+top to bottom direction
+
+:Utilisateur: as Utilisateur
+:System: as System
+
+rectangle  {
+    Utilisateur --> (S'inscrire)
+    Utilisateur -> (S'authentifier)
+
+
+
+    System --> (Enregistrer les informations du profil)
+    System --> (Vérifier les identifiants)
+
+
+    (S'inscrire) ..> (Remplir les informations du profil) : <<includes>>
+    (Remplir les informations du profil) ..> (Enregistrer les informations du profil) : <<includes>>
+    (Remplir les informations du profil) ..> (Accéder à l'application) : <<extends>>
+    (Vérifier les identifiants) ..> (Accéder à l'application) : <<extends>>
+    (S'authentifier) ..> (Vérifier les identifiants) : <<includes>>
+
+
+}
+
+@enduml
