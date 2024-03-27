@@ -197,6 +197,73 @@ class AuthenticationService {
     return response;
   }
 
+//   /// Get all the trips
+// Future<http.Response> getTrips(int userId) async {
+//   String? token = await getToken();
+//
+//   if (token == null) {
+//     return http.Response('Unauthorized', 401);
+//   }
+//
+//   // Get the list of trips
+//   final response = await http.get(
+//     Uri.parse('$baseUrl/listetrajet'),
+//     headers: <String, String>{
+//       'Content-Type': 'application/json; charset=UTF-8',
+//       'Authorization': 'Bearer $token',
+//     },
+//   );
+//
+//   if (response.statusCode == 200) {
+//     final jsonResponse = jsonDecode(response.body);
+//     final trips = jsonResponse.where((trip) => trip['driveId'] == userId).toList();
+//     return http.Response(jsonEncode(trips), 200);
+//   } else {
+//     return response;
+//   }
+// }
+  /// Get driver of a trip
+  Future<http.Response> getDriverOnTrip(int tripId) async {
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Get the driver of the trip
+    final response = await http.get(
+      Uri.parse('$baseUrl/listeinscriptionconducteur/$tripId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    return response;
+  }
+
+  /// Get the list of trips for a student
+  Future<http.Response> getStudentOnTrips(int studentId) async{
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Get the driver of the trip
+    final response = await http.get(
+      Uri.parse('$baseUrl/listeinscriptionuser/$studentId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    return response;
+
+  }
+
+
 //    _____             _____             _
 //   / ____|           |  __ \           | |
 //  | |     __ _ _ __  | |__) |___  _   _| |_ ___

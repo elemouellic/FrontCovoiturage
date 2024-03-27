@@ -1,7 +1,8 @@
 // lib/pages/home.dart
 import 'package:flutter/material.dart';
 import 'package:frontcovoiturage/pages/home__account.dart';
-import 'package:frontcovoiturage/pages/home__trip.dart';
+import 'package:frontcovoiturage/pages/home__publish_trip.dart';
+import 'package:frontcovoiturage/pages/home__your_trips.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 import 'package:frontcovoiturage/pages/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Vos trajets'),
               onTap: () {
                 setState(() {
-                  currentWidget = const Center(child: Text('Vos trajets'));
+                  currentWidget = const UserTripsPage();
                 });
                 Navigator.pop(context);
               },

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:frontcovoiturage/services/authentication_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:frontcovoiturage/extensions/string_extension.dart';
 
 class HomeTrip extends StatefulWidget {
   const HomeTrip({super.key});
@@ -70,7 +71,7 @@ Future<void> _loadUser() async {
               });
             },
             displayStringForOption: (Map<String, dynamic> option) =>
-                '${option['name']} (${option['zipcode']})',
+                '${option['name'].toString().capitalizeEachWord()} (${option['zipcode']})',
             onSelected: (Map<String, dynamic> selection) {
               _selectedStartCity = selection;
             },
@@ -107,7 +108,7 @@ Future<void> _loadUser() async {
               });
             },
             displayStringForOption: (Map<String, dynamic> option) =>
-                '${option['name']} (${option['zipcode']})',
+                '${option['name'].toString().capitalizeEachWord()} (${option['zipcode']})',
             onSelected: (Map<String, dynamic> selection) {
               _selectedEndCity = selection;
             },
