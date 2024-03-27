@@ -108,6 +108,7 @@ class AuthenticationService {
     return response;
   }
 
+  /// Update a person
   Future<http.Response> updatePersonne(int id, String firstname, String name,
       String email, String phone, int cityId) async {
     String? token = await getToken();
@@ -264,7 +265,6 @@ class AuthenticationService {
   }
 
   /// Get the trips with givens start city, end city and date
-
   Future<http.Response> searchTrip(int startCityId, int endCityId,
       DateTime travelDate) async {
     String? token = await getToken();
@@ -283,6 +283,30 @@ class AuthenticationService {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
+    );
+
+    return response;
+  }
+
+  /// Insert a trip subscription
+  Future<http.Response> insertInscription(int tripId, int studentId) async{
+    String? token = await getToken();
+
+    if (token == null) {
+      return http.Response('Unauthorized', 401);
+    }
+
+    // Insert the subscription
+    final response = await http.post(
+      Uri.parse('$baseUrl/insertinscription'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'trip_id': tripId,
+        'student_id': studentId,
+      }),
     );
 
     return response;

@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/extensions/string_extension.dart';
+import 'package:frontcovoiturage/pages/home__search_trip__trip_detail.dart';
 
 class HomeSearch extends StatefulWidget {
   const HomeSearch({Key? key}) : super(key: key);
@@ -14,7 +16,8 @@ class HomeSearch extends StatefulWidget {
 }
 
 class _HomeSearchState extends State<HomeSearch> {
-  final _authService = AuthenticationService();
+  final authService = AuthenticationService();
+  Map<String, dynamic>? user;
   Map<String, dynamic>? _selectedStartCity;
   Map<String, dynamic>? _selectedEndCity;
   DateTime _travelDate = DateTime.now();
@@ -24,11 +27,27 @@ class _HomeSearchState extends State<HomeSearch> {
   @override
   void initState() {
     super.initState();
+    loadUser();
     _loadCities();
   }
 
+  Future<void> loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId');
+    if (userId != null) {
+      final fetchedUser = await authService.getPersonne(userId);
+      if (fetchedUser != null) {
+        if (mounted) {
+          setState(() {
+            user = fetchedUser;
+          });
+        }
+      }
+    }
+  }
+
   Future<void> _loadCities() async {
-    final cities = await _authService.getCities();
+    final cities = await authService.getCities();
     setState(() {
       _cities = cities;
     });
@@ -36,7 +55,7 @@ class _HomeSearchState extends State<HomeSearch> {
 
   void _searchTrips() async {
     if (_selectedStartCity != null && _selectedEndCity != null) {
-      http.Response response = await _authService.searchTrip(
+      http.Response response = await authService.searchTrip(
           _selectedStartCity!['id'], _selectedEndCity!['id'], _travelDate);
       if (response.statusCode == 200) {
         // La requête a réussi, vous pouvez maintenant traiter la réponse
@@ -207,6 +226,22 @@ class _HomeSearchState extends State<HomeSearch> {
                   subtitle: Text(
                       '${trip['traveldate']} \nConducteur :  ${trip?['driver_name']}'),
                   trailing: Text('${trip['kmdistance']} kms'),
+                  onTap: () {
+                    if (trip != null && user != null) {
+                      print('Trip: $trip');
+                      print('User: $user');
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            child: TripDetailsPage(trip: trip!, user: user!),
+                          );
+                        },
+                      );
+                    } else {
+                      print('Trip or User is null');
+                    }
+                  },
                 );
               },
             ),
