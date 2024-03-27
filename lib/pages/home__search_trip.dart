@@ -18,8 +18,8 @@ class _HomeSearchState extends State<HomeSearch> {
   Map<String, dynamic>? _selectedStartCity;
   Map<String, dynamic>? _selectedEndCity;
   DateTime _travelDate = DateTime.now();
-  List<Map<String, dynamic>> _cities =
-  []; // Remplacez par la logique d'obtention de la liste des villes
+  List<Map<String, dynamic>> _cities = [];
+  List<Map<String, dynamic>> _trips = [];
 
   @override
   void initState() {
@@ -40,12 +40,28 @@ class _HomeSearchState extends State<HomeSearch> {
           _selectedStartCity!['id'], _selectedEndCity!['id'], _travelDate);
       if (response.statusCode == 200) {
         // La requête a réussi, vous pouvez maintenant traiter la réponse
-        // Par exemple, vous pouvez convertir la réponse en JSON et l'afficher dans l'interface utilisateur
         List<dynamic> trips = jsonDecode(response.body);
         // Affichez les trajets ici
+        // Vous pouvez les afficher dans une ListView par exemple
+        setState(() {
+          _trips = trips.cast<Map<String, dynamic>>();
+        });
+      } else if (response.statusCode == 404) {
+        // La requête a échoué avec une erreur 404, affichez un Snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text('Aucun trajet trouvé pour les critères sélectionnés.'),
+          ),
+        );
       } else {
-        // La requête a échoué, vous pouvez afficher un message d'erreur
-        // Affichez l'erreur ici
+        // La requête a échoué avec une autre erreur, affichez un Snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Une erreur est survenue lors de la recherche de trajets.'),
+          ),
+        );
       }
     }
   }
@@ -57,46 +73,44 @@ class _HomeSearchState extends State<HomeSearch> {
         title: Text('Recherche de trajets'),
       ),
       body: Column(
-          children: <Widget>[
-          Autocomplete<Map<String, dynamic >> (
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text.isEmpty) {
-          return const Iterable<Map<String, dynamic>>.empty();
-        }
+        children: <Widget>[
+          Autocomplete<Map<String, dynamic>>(
+            optionsBuilder: (TextEditingValue textEditingValue) {
+              if (textEditingValue.text.isEmpty) {
+                return const Iterable<Map<String, dynamic>>.empty();
+              }
 
-        return _cities.where((Map<String, dynamic> city) {
-          return city['zipcode']
-              .toString()
-              .startsWith(textEditingValue.text);
-        });
-      },
-      displayStringForOption: (Map<String, dynamic> option) =>
-      '${option['name']
-          .toString()
-          .capitalizeEachWord()} (${option['zipcode']})',
-      onSelected: (Map<String, dynamic> selection) {
-        _selectedStartCity = selection;
-      },
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController fieldTextEditingController,
-          FocusNode fieldFocusNode,
-          VoidCallback onFieldSubmitted) {
-        return TextField(
-          controller: fieldTextEditingController,
-          focusNode: fieldFocusNode,
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
-          ],
-          decoration: const InputDecoration(
-            hintText: 'Code postal de départ',
+              return _cities.where((Map<String, dynamic> city) {
+                return city['zipcode']
+                    .toString()
+                    .startsWith(textEditingValue.text);
+              });
+            },
+            displayStringForOption: (Map<String, dynamic> option) =>
+                '${option['name'].toString().capitalizeEachWord()} (${option['zipcode']})',
+            onSelected: (Map<String, dynamic> selection) {
+              _selectedStartCity = selection;
+            },
+            fieldViewBuilder: (BuildContext context,
+                TextEditingController fieldTextEditingController,
+                FocusNode fieldFocusNode,
+                VoidCallback onFieldSubmitted) {
+              return TextField(
+                controller: fieldTextEditingController,
+                focusNode: fieldFocusNode,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                decoration: const InputDecoration(
+                  hintText: 'Code postal de départ',
+                ),
+                onSubmitted: (String value) {
+                  onFieldSubmitted();
+                },
+              );
+            },
           ),
-          onSubmitted: (String value) {
-            onFieldSubmitted();
-          },
-        );
-      },
-      ),
           // Autocomplete pour la ville d'arrivée
           Autocomplete<Map<String, dynamic>>(
             optionsBuilder: (TextEditingValue textEditingValue) {
@@ -111,9 +125,7 @@ class _HomeSearchState extends State<HomeSearch> {
               });
             },
             displayStringForOption: (Map<String, dynamic> option) =>
-            '${option['name']
-                .toString()
-                .capitalizeEachWord()} (${option['zipcode']})',
+                '${option['name'].toString().capitalizeEachWord()} (${option['zipcode']})',
             onSelected: (Map<String, dynamic> selection) {
               _selectedEndCity = selection;
             },
@@ -171,12 +183,36 @@ class _HomeSearchState extends State<HomeSearch> {
             },
           ),
           ElevatedButton(
-          onPressed: _searchTrips,
-          child: const Text('Rechercher des trajets'),
-    ),]
-    ,
-    )
-    ,
+            onPressed: _searchTrips,
+            child: const Text('Rechercher des trajets'),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _trips.length,
+              itemBuilder: (context, index) {
+                final trip = _trips[index];
+                return ListTile(
+                  leading: const Icon(Icons.drive_eta_rounded),
+                  title: Row(
+                    children: [
+                      Text('${trip['start_city']}'
+                          .toString()
+                          .capitalizeEachWord()),
+                      const Icon(Icons.arrow_forward),
+                      Text('${trip['arrive_city']}'
+                          .toString()
+                          .capitalizeEachWord()),
+                    ],
+                  ),
+                  subtitle: Text(
+                      '${trip['traveldate']} \nConducteur :  ${trip?['driver_name']}'),
+                  trailing: Text('${trip['kmdistance']} kms'),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
