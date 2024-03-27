@@ -16,7 +16,7 @@ class UserTripsPage extends StatefulWidget {
 class _UserTripsPageState extends State<UserTripsPage> {
   Map<String, dynamic>? user;
   int? studentId;
-  AuthenticationService authService = AuthenticationService();
+  APIService authService = APIService();
   Future<http.Response>? tripsFuture;
 
   @override

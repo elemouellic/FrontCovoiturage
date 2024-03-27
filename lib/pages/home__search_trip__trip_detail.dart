@@ -6,7 +6,7 @@ import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/extensions/string_extension.dart';
 
 class TripDetailsPage extends StatelessWidget {
-  final authService = AuthenticationService();
+  final authService = APIService();
   final Map<String, dynamic> trip;
   final Map<String, dynamic> user;
 

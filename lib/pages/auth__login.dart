@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authService = AuthenticationService();
+  final _authService = APIService();
 
   void _login() async {
     final username = _usernameController.text;

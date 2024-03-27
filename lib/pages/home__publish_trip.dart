@@ -15,7 +15,7 @@ class HomeTrip extends StatefulWidget {
 
 class _HomeTripState extends State<HomeTrip> {
   final _formKey = GlobalKey<FormState>();
-  final _authService = AuthenticationService();
+  final _authService = APIService();
   List<Map<String, dynamic>> _cities = [];
   int? _driverId;
   Map<String, dynamic>? _selectedStartCity;

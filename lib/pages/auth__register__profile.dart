@@ -19,7 +19,7 @@ class ProfilePageState extends State<ProfilePage> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
-  final _authService = AuthenticationService();
+  final _authService = APIService();
 
   List<Map<String, dynamic>> _cities = [];
   Map<String, dynamic>? _selectedCity;

@@ -16,7 +16,7 @@ class HomeAccount extends StatefulWidget {
 class _HomeAccountState extends State<HomeAccount> {
   Map<String, dynamic>? user;
 
-  final AuthenticationService authService = AuthenticationService();
+  final APIService authService = APIService();
 
   @override
   void initState() {

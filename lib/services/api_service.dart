@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 /// Service to authenticate users
-class AuthenticationService {
+class APIService {
   final String baseUrl = "http://127.0.0.1:8000/api";
 
 //   _    _                 _____             _

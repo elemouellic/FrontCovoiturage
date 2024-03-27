@@ -8,12 +8,7 @@ import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/pages/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Importez vos widgets ici
-// import 'package:frontcovoiturage/pages/trajets_page.dart';
-// import 'package:frontcovoiturage/pages/recherche_trajet_page.dart';
-// import 'package:frontcovoiturage/pages/vos_trajets_page.dart';
-// import 'package:frontcovoiturage/pages/publier_trajet_page.dart';
-// import 'package:frontcovoiturage/pages/mon_compte_page.dart';
+import 'home__list_trips.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   );
 
   // Create an instance of the AuthenticationService
-  final authService = AuthenticationService();
+  final authService = APIService();
 
   // Attribute to store the username
   String? username = "...";
@@ -108,8 +103,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Liste des trajets'),
               onTap: () {
                 setState(() {
-                  currentWidget =
-                      const Center(child: Text('Liste des trajets'));
+                  currentWidget = const AllTripsPage();
                 });
                 Navigator.pop(context);
               },
@@ -119,7 +113,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Rechercher un trajet'),
               onTap: () {
                 setState(() {
-                  currentWidget = HomeSearch();
+                  currentWidget = const HomeSearch();
                 });
                 Navigator.pop(context);
               },

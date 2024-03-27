@@ -16,7 +16,7 @@ class HomeSearch extends StatefulWidget {
 }
 
 class _HomeSearchState extends State<HomeSearch> {
-  final authService = AuthenticationService();
+  final authService = APIService();
   Map<String, dynamic>? user;
   Map<String, dynamic>? _selectedStartCity;
   Map<String, dynamic>? _selectedEndCity;

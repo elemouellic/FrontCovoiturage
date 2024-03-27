@@ -18,7 +18,7 @@ class RegisterPageState extends State<RegisterPage> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _authService = AuthenticationService();
+  final _authService = APIService();
 
   // Error message to display
   String? _errorMessage;

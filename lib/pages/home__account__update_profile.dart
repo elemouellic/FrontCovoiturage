@@ -6,7 +6,7 @@ import 'package:frontcovoiturage/services/api_service.dart';
 import 'package:frontcovoiturage/extensions/string_extension.dart';
 
 class UpdateProfileWidget extends StatefulWidget {
-  final AuthenticationService authService;
+  final APIService authService;
   final Function onProfileUpdated;
   final int userId;
   final int ?carId;

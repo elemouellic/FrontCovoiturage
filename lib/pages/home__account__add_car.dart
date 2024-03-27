@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 
 class AddCarWidget extends StatefulWidget {
-  final AuthenticationService authService;
+  final APIService authService;
   final Function onCarAdded;
   final int studentId;
 
